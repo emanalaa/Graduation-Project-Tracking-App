@@ -1,0 +1,20 @@
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\Graduation Tracking Project.exe.config
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\Graduation Tracking Project.exe
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\Graduation Tracking Project.pdb
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Entry.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Login.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Properties.Resources.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Settings.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Sign_Up.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Student_Home_Page.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Supervisor_Mentor.resources
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation Tracking Project.csproj.GenerateResource.Cache
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation Tracking Project.exe
+c:\users\eman\documents\visual studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation Tracking Project.pdb
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\EntityFramework.dll
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\EntityFramework.xml
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation Tracking Project.csprojResolveAssemblyReference.cache
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Supervisor_Mentor_Home.Post_Announcements.resources
+C:\Users\Eman\Documents\Visual Studio 2017\Projects\Graduation Tracking Project\Graduation Tracking Project\obj\Debug\Graduation_Tracking_Project.Student_Home.View_Assigned_Supervisors.resources

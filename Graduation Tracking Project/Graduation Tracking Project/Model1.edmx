@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Announcements">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Announcement" Type="text" Nullable="false" />
+          <Property Name="MentorEmail" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="date" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupervisorEmail" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mentor">
+          <Key>
+            <PropertyRef Name="mentor_email" />
+          </Key>
+          <Property Name="mentor_name" Type="varchar" MaxLength="50" />
+          <Property Name="mentor_email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="mentor_password" Type="varchar" MaxLength="50" />
+          <Property Name="office_hours" Type="text" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="project_id" />
+          </Key>
+          <Property Name="project_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="project_name" Type="varchar" MaxLength="50" />
+          <Property Name="project_start_date" Type="date" />
+          <Property Name="project_end_date" Type="date" />
+          <Property Name="project_description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_name" Type="varchar" MaxLength="50" />
+          <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="student_email" Type="varchar" MaxLength="50" />
+          <Property Name="student_password" Type="varchar" MaxLength="50" />
+          <Property Name="student_total_grade" Type="float" />
+          <Property Name="student_department" Type="varchar" MaxLength="50" />
+          <Property Name="team_id_fk" Type="int" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="supervisor_email" />
+          </Key>
+          <Property Name="supervisor_name" Type="varchar" MaxLength="50" />
+          <Property Name="supervisor_email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="supervisor_password" Type="varchar" MaxLength="50" />
+          <Property Name="office_hours" Type="text" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="task_ID" />
+          </Key>
+          <Property Name="task_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_description" Type="varchar" MaxLength="50" />
+          <Property Name="task_start_date" Type="date" />
+          <Property Name="task_end_date" Type="date" />
+          <Property Name="task_status" Type="varchar" MaxLength="50" />
+          <Property Name="student_id_fk" Type="int" />
+          <Property Name="project_id_fk" Type="int" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Team_ID" />
+          </Key>
+          <Property Name="Team_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="team_leader_id" Type="int" />
+          <Property Name="Total_mark" Type="float" />
+          <Property Name="mentor_email_fk" Type="varchar" MaxLength="50" />
+          <Property Name="supervisor_email_fk" Type="varchar" MaxLength="50" />
+          <Property Name="project_id_fk" Type="int" />
+        </EntityType>
+        <Association Name="FK_Announcements_Mentor1">
+          <End Role="Mentor" Type="Self.Mentor" Multiplicity="0..1" />
+          <End Role="Announcements" Type="Self.Announcements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mentor">
+              <PropertyRef Name="mentor_email" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="MentorEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Announcements_Supervisor1">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1" />
+          <End Role="Announcements" Type="Self.Announcements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="supervisor_email" />
+            </Principal>
+            <Dependent Role="Announcements">
+              <PropertyRef Name="SupervisorEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Student">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Team_ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="team_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="project_id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="project_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="student_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Mentor">
+          <End Role="Mentor" Type="Self.Mentor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mentor">
+              <PropertyRef Name="mentor_email" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="mentor_email_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="project_id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="project_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Supervisor">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="supervisor_email" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="supervisor_email_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Announcements" EntityType="Self.Announcements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mentor" EntityType="Self.Mentor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supervisor" EntityType="Self.Supervisor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Announcements_Mentor1" Association="Self.FK_Announcements_Mentor1">
+            <End Role="Mentor" EntitySet="Mentor" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Announcements_Supervisor1" Association="Self.FK_Announcements_Supervisor1">
+            <End Role="Supervisor" EntitySet="Supervisor" />
+            <End Role="Announcements" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Student" Association="Self.FK_Student_Student">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Project" Association="Self.FK_Task_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Student" Association="Self.FK_Task_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Mentor" Association="Self.FK_Team_Mentor">
+            <End Role="Mentor" EntitySet="Mentor" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Project" Association="Self.FK_Team_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Supervisor" Association="Self.FK_Team_Supervisor">
+            <End Role="Supervisor" EntitySet="Supervisor" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Graduation_Project_TrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Announcements" EntityType="Model.Announcement" />
+          <EntitySet Name="Mentors" EntityType="Model.Mentor" />
+          <EntitySet Name="Projects" EntityType="Model.Project" />
+          <EntitySet Name="Students" EntityType="Model.Student" />
+          <EntitySet Name="Supervisors" EntityType="Model.Supervisor" />
+          <EntitySet Name="sysdiagrams" EntityType="Model.sysdiagram" />
+          <EntitySet Name="Tasks" EntityType="Model.Task" />
+          <EntitySet Name="Teams" EntityType="Model.Team" />
+          <AssociationSet Name="FK_Announcements_Mentor1" Association="Model.FK_Announcements_Mentor1">
+            <End Role="Mentor" EntitySet="Mentors" />
+            <End Role="Announcement" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Announcements_Supervisor1" Association="Model.FK_Announcements_Supervisor1">
+            <End Role="Supervisor" EntitySet="Supervisors" />
+            <End Role="Announcement" EntitySet="Announcements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Mentor" Association="Model.FK_Team_Mentor">
+            <End Role="Mentor" EntitySet="Mentors" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Project" Association="Model.FK_Task_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Project" Association="Model.FK_Team_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Student" Association="Model.FK_Student_Student">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Student" Association="Model.FK_Task_Student">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Supervisor" Association="Model.FK_Team_Supervisor">
+            <End Role="Supervisor" EntitySet="Supervisors" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Announcement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Announcement1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MentorEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupervisorEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Mentor" Relationship="Model.FK_Announcements_Mentor1" FromRole="Announcement" ToRole="Mentor" />
+          <NavigationProperty Name="Supervisor" Relationship="Model.FK_Announcements_Supervisor1" FromRole="Announcement" ToRole="Supervisor" />
+        </EntityType>
+        <EntityType Name="Mentor">
+          <Key>
+            <PropertyRef Name="mentor_email" />
+          </Key>
+          <Property Name="mentor_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mentor_email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="mentor_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="office_hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Announcements" Relationship="Model.FK_Announcements_Mentor1" FromRole="Mentor" ToRole="Announcement" />
+          <NavigationProperty Name="Teams" Relationship="Model.FK_Team_Mentor" FromRole="Mentor" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="project_id" />
+          </Key>
+          <Property Name="project_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="project_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="project_start_date" Type="DateTime" Precision="0" />
+          <Property Name="project_end_date" Type="DateTime" Precision="0" />
+          <Property Name="project_description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tasks" Relationship="Model.FK_Task_Project" FromRole="Project" ToRole="Task" />
+          <NavigationProperty Name="Teams" Relationship="Model.FK_Team_Project" FromRole="Project" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="student_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="student_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="student_total_grade" Type="Double" />
+          <Property Name="student_department" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="team_id_fk" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Model.FK_Student_Student" FromRole="Student" ToRole="Team" />
+          <NavigationProperty Name="Tasks" Relationship="Model.FK_Task_Student" FromRole="Student" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="supervisor_email" />
+          </Key>
+          <Property Name="supervisor_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="office_hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Announcements" Relationship="Model.FK_Announcements_Supervisor1" FromRole="Supervisor" ToRole="Announcement" />
+          <NavigationProperty Name="Teams" Relationship="Model.FK_Team_Supervisor" FromRole="Supervisor" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="task_ID" />
+          </Key>
+          <Property Name="task_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="task_start_date" Type="DateTime" Precision="0" />
+          <Property Name="task_end_date" Type="DateTime" Precision="0" />
+          <Property Name="task_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="student_id_fk" Type="Int32" />
+          <Property Name="project_id_fk" Type="Int32" />
+          <NavigationProperty Name="Project" Relationship="Model.FK_Task_Project" FromRole="Task" ToRole="Project" />
+          <NavigationProperty Name="Student" Relationship="Model.FK_Task_Student" FromRole="Task" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Team_ID" />
+          </Key>
+          <Property Name="Team_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="team_leader_id" Type="Int32" />
+          <Property Name="Total_mark" Type="Double" />
+          <Property Name="mentor_email_fk" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="supervisor_email_fk" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="project_id_fk" Type="Int32" />
+          <NavigationProperty Name="Mentor" Relationship="Model.FK_Team_Mentor" FromRole="Team" ToRole="Mentor" />
+          <NavigationProperty Name="Project" Relationship="Model.FK_Team_Project" FromRole="Team" ToRole="Project" />
+          <NavigationProperty Name="Students" Relationship="Model.FK_Student_Student" FromRole="Team" ToRole="Student" />
+          <NavigationProperty Name="Supervisor" Relationship="Model.FK_Team_Supervisor" FromRole="Team" ToRole="Supervisor" />
+        </EntityType>
+        <Association Name="FK_Announcements_Mentor1">
+          <End Type="Model.Mentor" Role="Mentor" Multiplicity="0..1" />
+          <End Type="Model.Announcement" Role="Announcement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mentor">
+              <PropertyRef Name="mentor_email" />
+            </Principal>
+            <Dependent Role="Announcement">
+              <PropertyRef Name="MentorEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Announcements_Supervisor1">
+          <End Type="Model.Supervisor" Role="Supervisor" Multiplicity="0..1" />
+          <End Type="Model.Announcement" Role="Announcement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="supervisor_email" />
+            </Principal>
+            <Dependent Role="Announcement">
+              <PropertyRef Name="SupervisorEmail" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Mentor">
+          <End Type="Model.Mentor" Role="Mentor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mentor">
+              <PropertyRef Name="mentor_email" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="mentor_email_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Project">
+          <End Type="Model.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="Model.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="project_id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="project_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Project">
+          <End Type="Model.Project" Role="Project" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="project_id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="project_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Student">
+          <End Type="Model.Team" Role="Team" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Team_ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="team_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Student">
+          <End Type="Model.Student" Role="Student" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="student_id_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Supervisor">
+          <End Type="Model.Supervisor" Role="Supervisor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="supervisor_email" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="supervisor_email_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Graduation_Project_TrackerEntities">
+          <EntitySetMapping Name="Announcements">
+            <EntityTypeMapping TypeName="Model.Announcement">
+              <MappingFragment StoreEntitySet="Announcements">
+                <ScalarProperty Name="SupervisorEmail" ColumnName="SupervisorEmail" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MentorEmail" ColumnName="MentorEmail" />
+                <ScalarProperty Name="Announcement1" ColumnName="Announcement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mentors">
+            <EntityTypeMapping TypeName="Model.Mentor">
+              <MappingFragment StoreEntitySet="Mentor">
+                <ScalarProperty Name="office_hours" ColumnName="office_hours" />
+                <ScalarProperty Name="mentor_password" ColumnName="mentor_password" />
+                <ScalarProperty Name="mentor_email" ColumnName="mentor_email" />
+                <ScalarProperty Name="mentor_name" ColumnName="mentor_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="Model.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="project_description" ColumnName="project_description" />
+                <ScalarProperty Name="project_end_date" ColumnName="project_end_date" />
+                <ScalarProperty Name="project_start_date" ColumnName="project_start_date" />
+                <ScalarProperty Name="project_name" ColumnName="project_name" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="Model.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="team_id_fk" ColumnName="team_id_fk" />
+                <ScalarProperty Name="student_department" ColumnName="student_department" />
+                <ScalarProperty Name="student_total_grade" ColumnName="student_total_grade" />
+                <ScalarProperty Name="student_password" ColumnName="student_password" />
+                <ScalarProperty Name="student_email" ColumnName="student_email" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="student_name" ColumnName="student_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supervisors">
+            <EntityTypeMapping TypeName="Model.Supervisor">
+              <MappingFragment StoreEntitySet="Supervisor">
+                <ScalarProperty Name="office_hours" ColumnName="office_hours" />
+                <ScalarProperty Name="supervisor_password" ColumnName="supervisor_password" />
+                <ScalarProperty Name="supervisor_email" ColumnName="supervisor_email" />
+                <ScalarProperty Name="supervisor_name" ColumnName="supervisor_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="Model.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="project_id_fk" ColumnName="project_id_fk" />
+                <ScalarProperty Name="student_id_fk" ColumnName="student_id_fk" />
+                <ScalarProperty Name="task_status" ColumnName="task_status" />
+                <ScalarProperty Name="task_end_date" ColumnName="task_end_date" />
+                <ScalarProperty Name="task_start_date" ColumnName="task_start_date" />
+                <ScalarProperty Name="task_description" ColumnName="task_description" />
+                <ScalarProperty Name="task_ID" ColumnName="task_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="Model.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="project_id_fk" ColumnName="project_id_fk" />
+                <ScalarProperty Name="supervisor_email_fk" ColumnName="supervisor_email_fk" />
+                <ScalarProperty Name="mentor_email_fk" ColumnName="mentor_email_fk" />
+                <ScalarProperty Name="Total_mark" ColumnName="Total_mark" />
+                <ScalarProperty Name="team_leader_id" ColumnName="team_leader_id" />
+                <ScalarProperty Name="Team_ID" ColumnName="Team_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

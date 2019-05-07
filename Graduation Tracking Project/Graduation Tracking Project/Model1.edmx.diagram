@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c1ca52f2193c4aed9b34aabdc7eb8b6b" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.Announcement" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Mentor" Width="1.5" PointX="0.75" PointY="8.25" />
+        <EntityTypeShape EntityType="Model.Project" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model.Student" Width="1.5" PointX="5.25" PointY="8.5" />
+        <EntityTypeShape EntityType="Model.Supervisor" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="Model.sysdiagram" Width="1.5" PointX="7.75" PointY="8.375" />
+        <EntityTypeShape EntityType="Model.Task" Width="1.5" PointX="6" PointY="4.5" />
+        <EntityTypeShape EntityType="Model.Team" Width="1.5" PointX="3" PointY="4.5" />
+        <AssociationConnector Association="Model.FK_Announcements_Mentor1" />
+        <AssociationConnector Association="Model.FK_Announcements_Supervisor1" />
+        <AssociationConnector Association="Model.FK_Team_Mentor" />
+        <AssociationConnector Association="Model.FK_Task_Project" />
+        <AssociationConnector Association="Model.FK_Team_Project" />
+        <AssociationConnector Association="Model.FK_Student_Student" />
+        <AssociationConnector Association="Model.FK_Task_Student" />
+        <AssociationConnector Association="Model.FK_Team_Supervisor" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
